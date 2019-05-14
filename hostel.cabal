@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c8177ee69ecd3fa1ecc895479a535a4725de65df16f3c7d03482260a5b53acf4
+-- hash: 4fa7fdaa007e9afab83bf526ac1672c6c4fca7e1bff28e0227e7d6e77e044b18
 
 name:           hostel
 version:        0.1.0.0
@@ -47,7 +47,24 @@ executable hostel-exe
   other-modules:
       Paths_hostel
   hs-source-dirs:
-      app
+      cli
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , directory >=1.3.3.0
+    , hostel
+    , http-types
+    , scotty
+    , text
+    , yaml
+  default-language: Haskell2010
+
+executable hosteld-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_hostel
+  hs-source-dirs:
+      server
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
