@@ -6,6 +6,7 @@ import Lib
 import Files
 
 import Data.Text.Internal.Lazy
+import qualified Data.Text.Lazy as DT
 import Control.Monad.IO.Class (liftIO)
 import Network.HTTP.Types.Status
 import Web.Scotty
@@ -20,22 +21,21 @@ serveURI = do
   hosted <- liftIO hostedList
   case hosted of
     Left e -> do
-      text "parseException"
+      text $ DT.pack $ show e
       status internalServerError500
-    Right h ->      
+    Right h ->
       case hostedFile of
         Left e -> do
-          text "ffffuuu"
+          text $ DT.pack $ show e
           status status404
         Right f -> do
           setHeader "Content-Type" "application/octet-stream"
+          setHeader "Content-Disposition" "attachment"
+          setHeader "filename" $ DT.pack $ localPath (path f)
+          status status200
           file $ path f
-      where hostedFile = hostedFileFromURI uri h          
-
-hello :: ActionM ()
-hello = do
-  html "<h1>Hello world!</h1>"
+      where hostedFile = hostedFileFromURI uri h
 
 main = do
-  putStrLn "Starting a server..."
   scotty 3000 $ hostel
+

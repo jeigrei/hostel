@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 523ee479e11616fc2fc5aef6ce390ff9a46b96080747291d608484a778e808f0
+-- hash: c8177ee69ecd3fa1ecc895479a535a4725de65df16f3c7d03482260a5b53acf4
 
 name:           hostel
 version:        0.1.0.0
@@ -29,7 +29,6 @@ library
   exposed-modules:
       Files
       Lib
-      RouteGenerator
   other-modules:
       Paths_hostel
   hs-source-dirs:

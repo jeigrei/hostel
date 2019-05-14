@@ -6,6 +6,7 @@ import Lib
 import GHC.Generics
 import Data.Yaml
 import Web.Scotty
+import Debug.Trace
 import qualified Data.Text.Lazy as DT 
 
 -- type URI = Text
@@ -18,6 +19,9 @@ data HostedFileList = HostedFileList { hostedFiles :: [HostedFile] } deriving (S
 
 instance FromJSON HostedFileList
 instance FromJSON HostedFile
+
+localPath :: FilePath -> FilePath
+localPath fp = reverse $ takeWhile (/= '/') $ reverse fp
 
 hostedList :: IO (Either ParseException HostedFileList)
 hostedList = do
