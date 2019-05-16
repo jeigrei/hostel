@@ -37,5 +37,5 @@ serveURI = do
       where hostedFile = hostedFileFromURI uri h
 
 main = do
-  scotty 3000 $ hostel
+  scotty 3000 $ hostel 
 
