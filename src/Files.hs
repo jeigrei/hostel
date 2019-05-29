@@ -7,6 +7,9 @@ import GHC.Generics
 import Data.Yaml
 import Web.Scotty
 import Debug.Trace
+import Data.Either
+import Data.Bifunctor
+import Control.Monad.IO.Class (liftIO)
 import qualified Data.Text.Lazy as DT 
 
 -- type URI = Text
@@ -23,10 +26,11 @@ instance FromJSON HostedFile
 localPath :: FilePath -> FilePath
 localPath fp = reverse $ takeWhile (/= '/') $ reverse fp
 
-hostedList :: IO (Either ParseException HostedFileList)
+hostedList :: IO (Either HostelException HostedFileList)
 hostedList = do
   f <- configFile
-  decodeFileEither f
+  decoded <- decodeFileEither f
+  return $ first asHostelError decoded
 
 hostedFileFromURI :: DT.Text -> HostedFileList -> Either HostelException HostedFile
 hostedFileFromURI targetURI hostedList =
