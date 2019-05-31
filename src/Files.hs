@@ -18,21 +18,21 @@ data HostedFile = HostedFile { uri :: String,
                                path :: String
                              } deriving (Show, Generic)
 
-data HostedFileList = HostedFileList { hostedFiles :: [HostedFile] } deriving (Show, Generic)
+data Config = Config { hostedFiles :: [HostedFile] } deriving (Show, Generic)
 
-instance FromJSON HostedFileList
+instance FromJSON Config
 instance FromJSON HostedFile
 
 localPath :: FilePath -> FilePath
 localPath fp = reverse $ takeWhile (/= '/') $ reverse fp
 
-hostedList :: IO (Either HostelException HostedFileList)
+hostedList :: IO (Either HostelException Config)
 hostedList = do
   f <- configFile
   decoded <- decodeFileEither f
   return $ first asHostelError decoded
 
-hostedFileFromURI :: DT.Text -> HostedFileList -> Either HostelException HostedFile
+hostedFileFromURI :: DT.Text -> Config -> Either HostelException HostedFile
 hostedFileFromURI targetURI hostedList =
   if length matchingFiles == 1 then Right(head matchingFiles) else Left(RequestedURIDoesNotExist)
   where matchingFiles = [f | f <- (hostedFiles hostedList), uri f == DT.unpack targetURI]

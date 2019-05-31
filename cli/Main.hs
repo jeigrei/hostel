@@ -12,7 +12,7 @@ import CLI
 addFile :: String -> IO ()
 addFile name = return ()        -- TODO
 
-addToConfig :: FilePath -> HostedFileList -> IO ()
+addToConfig :: FilePath -> Config -> IO ()
 addToConfig fpath hosted = return () -- TODO
 
 removeFile :: String -> IO ()
